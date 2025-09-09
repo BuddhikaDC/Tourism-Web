@@ -1,2 +1,2 @@
 # Tourism-Web
-Tourism web site
+This project is a dynamic tourism website designed to showcase travel destinations, attractions, and services for travelers.
