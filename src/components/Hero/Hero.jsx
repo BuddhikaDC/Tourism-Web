@@ -41,7 +41,7 @@ function Hero() {
 			className="relative min-h-[80vh] w-full overflow-hidden bg-center bg-cover"
 			style={bgStyle}
 		>
-			<div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/60"></div>
+			<div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40"></div>
 			<div className="relative mx-auto flex min-h-[80vh] max-w-7xl flex-col items-center justify-center gap-8 px-6 text-center text-white">
 				<div className="space-y-4">
 					<h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">

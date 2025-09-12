@@ -1,17 +1,17 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* Theme Variables */
+/* Theme Variables - Light Theme */
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.15 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --border: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --card-foreground: oklch(0.15 0 0);
+  --primary: oklch(0.4 0.15 150);
+  --primary-foreground: oklch(0.99 0 0);
+  --border: oklch(0.9 0 0);
+  --ring: oklch(0.4 0.15 150);
 }
 
 .dark {
@@ -32,10 +32,10 @@
     color: var(--foreground);
   }
   select {
-    background-color: var(--card, #1f2937);
-    color: var(--card-foreground, #fff);
+    background-color: var(--card, #ffffff);
+    color: var(--card-foreground, #1f2937);
     border-radius: var(--radius, 0.5rem);
-    border: 1px solid var(--border, #374151);
+    border: 1px solid var(--border, #d1d5db);
     padding: 0.5rem 1rem;
     font-size: 1rem;
     outline: none;
@@ -47,14 +47,14 @@
     box-shadow: 0 0 0 2px var(--ring, #10b981);
   }
   option {
-    background-color: var(--card, #1f2937);
-    color: var(--foreground, #222);
+    background-color: var(--card, #ffffff);
+    color: var(--foreground, #1f2937);
   }
   textarea {
-    background-color: var(--card, #1f2937);
-    color: var(--card-foreground, #fff);
+    background-color: var(--card, #ffffff);
+    color: var(--card-foreground, #1f2937);
     border-radius: var(--radius, 0.5rem);
-    border: 1px solid var(--border, #374151);
+    border: 1px solid var(--border, #d1d5db);
     padding: 0.75rem 1rem;
     font-size: 1rem;
     outline: none;
