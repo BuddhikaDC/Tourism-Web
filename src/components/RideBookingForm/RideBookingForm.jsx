@@ -1,5 +1,10 @@
 import { useState } from 'react'
 import { ChevronDown, Check, MessageCircle } from 'lucide-react'
+import jeep2 from "../../assets/jeep2.jpg"
+import kdh from "../../assets/KDH.jpg"
+import prius from "../../assets/Prius.jpg"
+import wagonr from "../../assets/WagonR.jpg"
+import kdh_high from "../../assets/KDH_high.jpg"
 
 // Import KDH image from assets
 import kdhImg from '../../assets/KDH.jpg'
@@ -101,11 +106,11 @@ function RideBookingForm() {
 
   // Vehicle images should live in public/vehicles for reliable loading
   const vehicles = [
-    { name: 'Mini Car', img: '/vehicles/WagonR.jpg', blurb: 'Compact and economical — great for city tours.' },
-    { name: 'Sedan', img: '/vehicles/Prius.jpg', blurb: 'Comfortable intercity rides for 3–4 passengers.' },
-    { name: 'Jeep', img: '/vehicles/jeep2.jpg', blurb: 'Rugged comfort for hill-country and safaris.' },
-    { name: 'KDH', img: '/vehicles/KDH.jpg', blurb: 'Spacious van ideal for families and groups.' },
-    { name: 'KDH High Roof', img: '/vehicles/HighRoof.jpg', blurb: 'Extra headroom and luggage space for long trips.' }
+    { name: 'Mini Car', img:wagonr, blurb: 'Compact and economical — great for city tours.' },
+    { name: 'Sedan', img: prius, blurb: 'Comfortable intercity rides for 3–4 passengers.' },
+    { name: 'Jeep', img: jeep2, blurb: 'Rugged comfort for hill-country and safaris.' },
+    { name: 'KDH', img: kdh, blurb: 'Spacious van ideal for families and groups.' },
+    { name: 'KDH High Roof', img: kdh_high, blurb: 'Extra headroom and luggage space for long trips.' }
   ]
 
   const handleInputChange = (field, value) => {
