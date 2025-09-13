@@ -126,74 +126,82 @@ const Service = () => {
 
   return (
     <div className="w-full bg-white from-gray-800 to-gray-900 bp-20 py-16 px-4 sm:px-6 lg:px-8 text-white">
+      {/* Title section */}
+      <div className="w-full flex flex-col items-center mb-8">
+        <h2 className="text-3xl font-bold text-black tracking-tight text-center">Our Packages</h2>
+        <p className="mt-2 text-base text-gray-600 text-center font-medium">
+          Crafting unforgettable journeys across Sri Lanka's wild and wonder.
+        </p>
+      </div>
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-y-10 gap-x-8 items-stretch">
         {services.map((service, idx) => (
-          <div
-            key={service.id}
-            className={
-              "bg-white rounded-2xl shadow-lg shadow-emerald-100 border border-emerald-200 overflow-hidden flex flex-col justify-between w-full max-w-[500px] mx-auto h-full transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl active:-translate-y-2 active:shadow-2xl" +
-              (idx < 2 ? " mt-6" : "")
-            }
-            style={{
-              animation: "fadeUp 0.8s ease",
-              animationFillMode: "both"
-            }}
-          >
-            <div className="relative w-full h-[340px] sm:h-[220px]">
-              <img
-                src={idx === 0 ? service.image[slideIdx1] : service.image[slideIdx2]}
-                alt={service.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute top-4 left-4 bg-emerald-600 text-white rounded-lg px-4 py-2 flex flex-col items-center font-bold text-base shadow shadow-emerald-300">
-                <span>{service.sale}</span>
-              </div>
-              {service.transit && (
-                <div className="absolute top-4 right-4 bg-black/80 text-white rounded-lg px-4 py-2 flex items-center font-bold text-base shadow">
-                  <span className="text-white">Includes</span>
-                  <span className="ml-2 px-2 py-1 rounded bg-emerald-600 text-white font-bold">Transit</span>
+          <div key={service.id}>
+            <div
+              className={
+                "bg-white rounded-2xl shadow-lg shadow-emerald-100 border border-emerald-200 overflow-hidden flex flex-col justify-between w-full max-w-[500px] mx-auto h-full transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl active:-translate-y-2 active:shadow-2xl" +
+                (idx < 2 ? " mt-6" : "")
+              }
+              style={{
+                animation: "fadeUp 0.8s ease",
+                animationFillMode: "both"
+              }}
+            >
+              <div className="relative w-full h-[340px] sm:h-[220px]">
+                <img
+                  src={idx === 0 ? service.image[slideIdx1] : service.image[slideIdx2]}
+                  alt={service.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-4 left-4 bg-emerald-600 text-white rounded-lg px-4 py-2 flex flex-col items-center font-bold text-base shadow shadow-emerald-300">
+                  <span>{service.sale}</span>
                 </div>
-              )}
-            </div>
-            <div className="px-6 py-6 sm:px-4 sm:py-4 flex flex-col gap-4 justify-between h-full">
-              <h2 className="font-black text-xl text-black">{service.title}</h2>
-              <div className="text-gray-700 text-base">{service.subtitle}</div>
-              <div className="bg-emerald-100 rounded-xl p-4 mb-2 border border-emerald-200">
-                <span className="font-bold text-black">Itinerary:</span>
-                <ul className="list-disc pl-5 mt-2 text-black text-sm">
-                  {service.route.map((r, i) => (
-                    <li key={i}>{r}</li>
-                  ))}
-                </ul>
+                {service.transit && (
+                  <div className="absolute top-4 right-4 bg-black/80 text-white rounded-lg px-4 py-2 flex items-center font-bold text-base shadow">
+                    <span className="text-white">Includes</span>
+                    <span className="ml-2 px-2 py-1 rounded bg-emerald-600 text-white font-bold">Transit</span>
+                  </div>
+                )}
               </div>
-              <div className="bg-white rounded-xl p-4 mb-2 border border-emerald-200">
-                <span className="font-bold text-black">Vehicle Options:</span>
-                <div className="flex flex-row flex-wrap gap-4 mt-2">
-                  {service.vehicles.map((v, i) => (
-                    <div key={i} className="bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2 text-black text-sm font-semibold shadow">
-                      {v.type} <span className="text-gray-500">({v.capacity} pax)</span>
-                      <div className="text-emerald-700 font-bold">{v.price}</div>
-                    </div>
-                  ))}
+              <div className="px-6 py-6 sm:px-4 sm:py-4 flex flex-col gap-4 justify-between h-full">
+                <h2 className="font-black text-xl text-black">{service.title}</h2>
+                <div className="text-gray-700 text-base">{service.subtitle}</div>
+                <div className="bg-emerald-100 rounded-xl p-4 mb-2 border border-emerald-200">
+                  <span className="font-bold text-black">Itinerary:</span>
+                  <ul className="list-disc pl-5 mt-2 text-black text-sm">
+                    {service.route.map((r, i) => (
+                      <li key={i}>{r}</li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-              <div className="flex flex-col space-y-3 sm:space-y-4 w-full">
-                <a
-                  href={`https://wa.me/94717244821?text=${encodeURIComponent(
-                    `Hello, I am interested in the "${service.title}" package.\nItinerary:\n${service.route.join('\n')}`
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={buttonClass}
-                >
-                  Book This Package
-                </a>
-                <button
-                  className="border border-emerald-600 bg-white text-black font-semibold rounded-lg px-7 py-2 text-base w-full sm:w-auto transition hover:bg-emerald-50 hover:border-emerald-700"
-                  style={{ boxShadow: "none" }}
-                >
-                  View details
-                </button>
+                <div className="bg-white rounded-xl p-4 mb-2 border border-emerald-200">
+                  <span className="font-bold text-black">Vehicle Options:</span>
+                  <div className="flex flex-row flex-wrap gap-4 mt-2">
+                    {service.vehicles.map((v, i) => (
+                      <div key={i} className="bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2 text-black text-sm font-semibold shadow">
+                        {v.type} <span className="text-gray-500">({v.capacity} pax)</span>
+                        <div className="text-emerald-700 font-bold">{v.price} <span className="text-xs text-gray-600">per day</span></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col space-y-3 sm:space-y-4 w-full">
+                  <a
+                    href={`https://wa.me/94717244821?text=${encodeURIComponent(
+                      `Hello, I am interested in the "${service.title}" package.\nItinerary:\n${service.route.join('\n')}`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={buttonClass}
+                  >
+                    Book This Package
+                  </a>
+                  <button
+                    className="border border-emerald-600 bg-white text-black font-semibold rounded-lg px-7 py-2 text-base w-full sm:w-auto transition hover:bg-emerald-50 hover:border-emerald-700"
+                    style={{ boxShadow: "none" }}
+                  >
+                    View details
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -250,7 +258,7 @@ const Service = () => {
                   {service.vehicles.map((v, i) => (
                     <div key={i} className="bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2 text-black text-sm font-semibold shadow">
                       {v.type} <span className="text-gray-500">({v.capacity} pax)</span>
-                      <div className="text-emerald-700 font-bold">{v.price}</div>
+                      <div className="text-emerald-700 font-bold">{v.price} <span className="text-xs text-gray-600">per day</span></div>
                     </div>
                   ))}
                 </div>
