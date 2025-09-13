@@ -172,7 +172,7 @@ const Service = () => {
                   {service.vehicles.map((v, i) => (
                     <div key={i} className="bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2 text-black text-sm font-semibold shadow">
                       {v.type} <span className="text-gray-500">({v.capacity} pax)</span>
-                      <div className="text-emerald-700 font-bold">{v.price}</div>
+                      <div className="text-emerald-700 font-bold">{v.price} <span className="text-xs text-gray-600">per day</span></div>
                     </div>
                   ))}
                 </div>
@@ -250,7 +250,7 @@ const Service = () => {
                   {service.vehicles.map((v, i) => (
                     <div key={i} className="bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2 text-black text-sm font-semibold shadow">
                       {v.type} <span className="text-gray-500">({v.capacity} pax)</span>
-                      <div className="text-emerald-700 font-bold">{v.price}</div>
+                      <div className="text-emerald-700 font-bold">{v.price} <span className="text-xs text-gray-600">per day</span></div>
                     </div>
                   ))}
                 </div>
