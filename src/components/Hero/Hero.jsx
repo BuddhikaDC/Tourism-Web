@@ -94,11 +94,11 @@ function Hero() {
 	]
 	const [currentSlide, setCurrentSlide] = useState(0)
 
-	// Auto-advance slides (slower)
+	// Auto-advance slides with smooth transition
 	useEffect(() => {
 		const intervalId = setInterval(() => {
 			setCurrentSlide((prev) => (prev + 1) % slideshowImages.length)
-		}, 9000)
+		}, 8000) // Changed from 9000 to 8000 to account for longer transition
 		return () => clearInterval(intervalId)
 	}, [slideshowImages.length])
 
@@ -175,32 +175,26 @@ function Hero() {
 					<span className="gradient-blob gradient-cyan right-[-30px] top-24 h-48 w-48" style={{ animationDelay: '0.6s' }}></span>
 					<span className="gradient-blob gradient-violet left-20 bottom-[-30px] h-52 w-52" style={{ animationDelay: '1.2s' }}></span>
 				</div>
-			<div className={`relative mx-auto flex min-h-[100vh] max-w-full flex-col items-center justify-center gap-8 overflow-hidden px-6 text-center text-white transition-opacity duration-700 rounded-none ${heroLoaded ? 'opacity-100' : 'opacity-0'}`} 
-			style={{
-				backgroundImage: `url(${hero1})`,
-				
-				backgroundPosition: 'center',
-				backgroundRepeat: 'no-repeat',
-				backgroundSize: 'cover',
-				}}>
+			<div className={`relative mx-auto flex min-h-[100vh] max-w-full flex-col items-center justify-center gap-8 overflow-hidden px-6 text-center text-white transition-opacity duration-700 rounded-none ${heroLoaded ? 'opacity-100' : 'opacity-0'}`}>
 				{/* Preload image to drive fade-in */}
 				<img src={hero1} alt="" className="hidden" onLoad={() => setHeroLoaded(true)} />
 				{/* Slides */}
 				<div className="absolute inset-0 -z-10">
-					{/* {slideshowImages.map((src, idx) => (
+					{slideshowImages.map((src, idx) => (
 						<div
 							key={idx}
-							className={`absolute inset-0 transition-opacity ease-in-out ${currentSlide === idx ? 'opacity-100' : 'opacity-0'}`}
+							className={`absolute inset-0 transition-opacity duration-1500 ease-in-out ${currentSlide === idx ? 'opacity-100' : 'opacity-0'}`}
 							style={{
 								backgroundImage: `url(${src})`,
 								backgroundSize: 'cover',
 								backgroundPosition: 'center',
 								backgroundRepeat: 'no-repeat',
-								transition: 'opacity 3000ms ease-in-out',
 								willChange: 'opacity',
+								transitionProperty: 'opacity',
+								transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
 							}}
 						/>
-					))} */}
+					))}
 				</div>
 
 				<div className={`absolute inset-0 rounded-none ${heroLoaded ? 'bg-black/50 transition-colors duration-700' : 'hero-skeleton'}`}></div>
