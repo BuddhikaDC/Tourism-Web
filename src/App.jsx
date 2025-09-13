@@ -13,6 +13,13 @@ function App() {
     <>
       <NavBar />
       <Hero />
+      
+      {/* Space Section */}
+      <section className="py-20 bg-gray-50">
+      </section>
+
+      <div className="py-8 sm:py-12 lg:py-16 bg-gradient-to-b from-gray-50 to-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       <About />
       <Map />
       <Footer />
