@@ -1,13 +1,9 @@
 import { useState } from 'react'
 import { ChevronDown, Check, MessageCircle } from 'lucide-react'
-import jeep2 from "../../assets/jeep2.jpg"
 import kdh from "../../assets/KDH.jpg"
 import prius from "../../assets/Prius.jpg"
 import wagonr from "../../assets/WagonR.jpg"
-import kdh_high from "../../assets/KDH_high.jpg"
 
-// Import KDH image from assets
-import kdhImg from '../../assets/KDH.jpg'
 
 function RideBookingForm() {
   const [activeTab, setActiveTab] = useState('ride')
@@ -25,9 +21,7 @@ function RideBookingForm() {
   const vehicleTypes = [
     'Mini Car',
     'Sedan', 
-    'Jeep',
-    'KDH',
-    'KDH High Roof'
+    'Van'
   ]
 
   const pickupDestinations = [
@@ -108,9 +102,7 @@ function RideBookingForm() {
   const vehicles = [
     { name: 'Mini Car', img:wagonr, blurb: 'Compact and economical — great for city tours.' },
     { name: 'Sedan', img: prius, blurb: 'Comfortable intercity rides for 3–4 passengers.' },
-    { name: 'Jeep', img: jeep2, blurb: 'Rugged comfort for hill-country and safaris.' },
-    { name: 'KDH', img: kdh, blurb: 'Spacious van ideal for families and groups.' },
-    { name: 'KDH High Roof', img: kdh_high, blurb: 'Extra headroom and luggage space for long trips.' }
+    { name: 'Van', img: kdh, blurb: 'Spacious van ideal for families and groups.' }
   ]
 
   const handleInputChange = (field, value) => {
@@ -213,11 +205,10 @@ function RideBookingForm() {
                     </div>
 
                     {/* Vehicle helper note */}
-                    {(formData.vehicle === 'KDH' || formData.vehicle === 'KDH High Roof') && (
+                    {formData.vehicle === 'Van' && (
                       <p className="mt-2 text-xs sm:text-sm text-gray-600">
-                        KDH vans are ideal for families and small groups. Comfortable seating,
-                        air-conditioning, and extra luggage space. The High Roof version offers
-                        additional headroom for a more spacious ride.
+                        Vans are ideal for families and small groups. Comfortable seating,
+                        air-conditioning, and extra luggage space for a spacious ride.
                       </p>
                     )}
 
