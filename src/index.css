@@ -41,6 +41,53 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Smooth scroll utility for horizontal carousels */
+.smooth-scroll { scroll-behavior: smooth; }
+
+/* Hero loading shimmer */
+@keyframes hero-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.hero-skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.14) 37%, rgba(255,255,255,0.06) 63%);
+  background-size: 200% 100%;
+  animation: hero-shimmer 1.6s ease-in-out infinite;
+}
+
+/* Animated gradient blobs */
+@keyframes float-slow {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(12px, -10px) scale(1.05); }
+  66% { transform: translate(-8px, 6px) scale(0.98); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+.gradient-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(40px);
+  opacity: 0.5;
+  animation: float-slow 12s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.gradient-emerald {
+  background: radial-gradient(circle at 30% 30%, rgba(16, 185, 129, 0.8), rgba(16, 185, 129, 0.1) 60%, transparent 70%);
+}
+
+.gradient-cyan {
+  background: radial-gradient(circle at 70% 40%, rgba(34, 211, 238, 0.8), rgba(34, 211, 238, 0.1) 60%, transparent 70%);
+}
+
+.gradient-violet {
+  background: radial-gradient(circle at 40% 70%, rgba(167, 139, 250, 0.8), rgba(167, 139, 250, 0.1) 60%, transparent 70%);
+}
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -115,6 +162,20 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    
   }
+}
+
+/* Typewriter caret */
+@keyframes caret-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.typewriter-caret {
+  display: inline-block;
+  width: 1ch;
+  color: #00bc7d;
+  animation: caret-blink 1s steps(1, end) infinite;
 }
