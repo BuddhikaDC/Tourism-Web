@@ -16,13 +16,6 @@ function App() {
       <About />
       <Map />
       <Footer />
-      </>
-
-      <div className="py-16 bg-gradient-to-b from-gray-800 to-gray-900">
-        <div className="container mx-auto px-4">
-          <RideBookingForm />
-        </div>
-      </div>
     </>
   )
 }

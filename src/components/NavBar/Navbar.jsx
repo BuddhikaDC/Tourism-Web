@@ -7,7 +7,7 @@ function Navbar() {
 	const [scrolledAmount, setScrolledAmount] = useState(0)
 
 	useEffect(() => {
-		let lastScrollY = window.scrollY
+		
 		let ticking = false
 
 		function updateScrollData() {
@@ -73,7 +73,7 @@ function Navbar() {
 					borderColor: isScrolled ? `rgba(209, 250, 229, ${0.5 + (scrolledAmount * 0.5)})` : 'transparent',
 					backgroundColor: isScrolled 
 						? `rgba(255, 255, 255, ${0.9 + (scrolledAmount * 0.1)})` 
-						: `rgba(236, 253, 245, ${0.95 - (scrolledAmount * 0.2)})`,
+						: `rgba(255, 255, 255, ${0.95 - (scrolledAmount * 0.2)})`,
 					backdropFilter: 'blur(12px)',
 					boxShadow: isScrolled 
 						? `0 4px 6px -1px rgba(0, 0, 0, ${0.05 + (scrolledAmount * 0.05)}), 0 2px 4px -1px rgba(0, 0, 0, ${0.01 + (scrolledAmount * 0.04)})` 
@@ -89,8 +89,8 @@ function Navbar() {
 					className="flex items-center justify-between"
 				>
 					<a href="#" className="flex items-center gap-2 group">
-						<img src="/vite.svg" alt="Safari" className="h-8 w-auto md:h-9 transition-transform group-hover:scale-105" />
-						<span className="text-emerald-700 font-bold text-xl hidden sm:inline-block">Safari</span>
+						<img src="src\assets\mr travel2.png" alt="Safari" className="h-8 w-auto md:h-9 transition-transform group-hover:scale-105" />
+						
 					</a>
 
 					{/* Desktop nav - custom links */}
