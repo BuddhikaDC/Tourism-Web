@@ -17,8 +17,6 @@ function App() {
       <About />
       <Service />
       <Map />
-<<<<<<< HEAD
-=======
       {/* Space Section */}
       <section className="py-20 bg-gray-50">
       </section>
@@ -27,7 +25,6 @@ function App() {
           <RideBookingForm />
         </div>
       </div>
->>>>>>> f0383bb644fa0807b3b8e90c62bb3290de61a9ca
       <Footer />
     </>
   )
