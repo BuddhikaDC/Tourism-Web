@@ -13,25 +13,20 @@ function App() {
     <>
       <NavBar />
       <Hero />
-      
+      <About />
+      <Map />
+
       {/* Space Section */}
       <section className="py-20 bg-gray-50">
       </section>
-
-      <div className="py-8 sm:py-12 lg:py-16 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-      <About />
-      <Map />
-      <Footer />
-      </>
-
       <div className="py-16 bg-gradient-to-b from-gray-800 to-gray-900">
         <div className="container mx-auto px-4">
           <RideBookingForm />
         </div>
       </div>
+      <Footer />
     </>
   )
 }
 
-export default App
+export default App;
