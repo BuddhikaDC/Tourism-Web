@@ -17,6 +17,17 @@ function App() {
       <About />
       <Service />
       <Map />
+<<<<<<< HEAD
+=======
+      {/* Space Section */}
+      <section className="py-20 bg-gray-50">
+      </section>
+      <div className="py-16 bg-gradient-to-b from-gray-800 to-gray-900">
+        <div className="container mx-auto px-4">
+          <RideBookingForm />
+        </div>
+      </div>
+>>>>>>> f0383bb644fa0807b3b8e90c62bb3290de61a9ca
       <Footer />
     </>
   )
