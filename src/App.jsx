@@ -7,6 +7,7 @@ import About from './components/AboutUs/About'
 import Map from './components/Map/Map'
 import Footer from './components/Footer/Footer'
 import RideBookingForm from './components/RideBookingForm/RideBookingForm'
+import Activity from './components/Activity/Activity'
 
 
 function App() {
@@ -25,6 +26,11 @@ function App() {
         {/* Destinations Section */}
         <section id="service" className="py-16 bg-white scroll-mt-20">
           <Service />
+        </section>
+        
+        {/* Activities Section */}
+        <section id="activities" className="scroll-mt-20">
+          <Activity />
         </section>
         
         {/* About Section */}

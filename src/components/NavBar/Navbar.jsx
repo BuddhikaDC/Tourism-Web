@@ -102,6 +102,8 @@ function Navbar() {
 					<nav className="hidden md:flex items-center gap-8 mx-auto">
 						<a href="#" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Home</a>
 						<a href="#service" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Packages</a>
+						<a href="#activities" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Activities</a>
+						<a href="#about" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>About Us</a>
 						<a href="#destinations" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Destinations</a>
 						<a href="#feelt" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Our Fleet</a>
 						<a href="#contact" className="bg-emerald-600 text-white text-sm font-medium transition-colors px-4 py-2 rounded-full hover:bg-emerald-700 shadow-sm hover:shadow-md">Contact</a>
