@@ -90,7 +90,7 @@ function Hero() {
   }, [featureCards.length])
 
   return (
-    <section className="relative min-h-[100vh] w-full rounded-none  bg-cover bg-center bg-no-repeat px-4">
+    <section className="relative min-h-[100vh] w-full rounded-none  bg-cover bg-center bg-no-repeat px-4 bg-white">
       {/* Gradient blobs */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <span className="gradient-blob gradient-emerald left-[-40px] top-10 h-56 w-56"></span>
@@ -103,7 +103,7 @@ function Hero() {
         <img src={hero1} alt="" className="hidden" onLoad={() => setHeroLoaded(true)} />
 
         {/* Slides */}
-        <div className="absolute inset-0 -z-10">
+        <div className="">
           {slideshowImages.map((src, idx) => (
             <div
               key={idx}

@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { ChevronDown, Check, MessageCircle } from 'lucide-react'
+import React, { useState } from 'react';
+import { ChevronDown, Check, MessageCircle } from 'lucide-react';
+import Heading from '../Heading/header';
 import kdh from "../../assets/KDH.jpg"
 import prius from "../../assets/Prius.jpg"
 import wagonr from "../../assets/WagonR.jpg"
@@ -125,13 +126,13 @@ function RideBookingForm() {
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Vehicle Grid Section - placed below the form */}
-      <section className="mt-16 mb-10 px-4">
-        <h2 className="text-3xl font-extrabold text-center mb-4 text-gray-900">Our Fleet</h2>
-        <p className="text-center text-gray-600 max-w-3xl mx-auto mb-10">
-          Choose the right vehicle for your journey. From compact city rides to spacious vans for group tours,
-          each option is maintained to deliver comfort and safety across Sri Lanka.
-        </p>
+      <div className="text-center mb-12">
+        <Heading 
+          title="Our Fleet"
+          subtitle="Choose the right vehicle for your journey. From compact city rides to spacious vans for group tours, each option is maintained to deliver comfort and safety across Sri Lanka."
+        />
+      </div>
+      <div className="bg-white rounded-2xl shadow-lg p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {vehicles.map((vehicle, idx) => (
             <div
@@ -185,9 +186,10 @@ function RideBookingForm() {
             </div>
           ))}
         </div>
-      </section>
+      </div>
+      
       {/* Main Section: Left Content + Form */}
-      <div className="flex flex-col md:flex-row gap-8 items-stretch">
+      <div className="mt-16 flex flex-col md:flex-row gap-8 items-stretch">
         {/* Left Side Content */}
         <div className="md:w-7/12 w-full flex flex-col justify-center py-2 md:py-0 pl-0">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-6 leading-tight max-w-[800px]">

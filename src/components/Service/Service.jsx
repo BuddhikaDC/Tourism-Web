@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import banner2 from "../../assets/banner-2.jpg";
 import banner3 from "../../assets/banner-3.png";
 import banner4 from "../../assets/banner-4.jpg";
+import Heading from '../Heading/header';
 
 const packageImages = [banner2, banner3, banner4];
 const packageImages2 = [banner3, banner2, banner4];
@@ -125,13 +126,12 @@ const Service = () => {
     "min-w-[140px] w-full sm:w-auto bg-black hover:bg-emerald-700 active:bg-emerald-700 text-white font-bold rounded-lg px-7 py-2 text-base transition shadow shadow-emerald-300 border-2 border-emerald-600 flex items-center justify-center";
 
   return (
-    <div className="w-full bg-white from-gray-800 to-gray-900 bp-20 py-16 px-4 sm:px-6 lg:px-8 text-white">
-      {/* Title section */}
-      <div className="w-full flex flex-col items-center mb-8">
-        <h2 className="text-3xl font-bold text-black tracking-tight text-center">Our Packages</h2>
-        <p className="mt-2 text-base text-gray-600 text-center font-medium">
-          Crafting unforgettable journeys across Sri Lanka's wild and wonder.
-        </p>
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="text-center mb-12">
+        <Heading 
+          title="Our Packages"
+          subtitle="Crafting unforgettable journeys across Sri Lanka's wild and wonder."
+        />
       </div>
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-y-10 gap-x-8 items-stretch">
         {services.map((service, idx) => (

@@ -67,13 +67,13 @@ function Navbar() {
     >
 			<div 
 				style={{
-					maxWidth: '64rem',
+					
 					marginLeft: 'auto',
 					marginRight: 'auto',
 					paddingLeft: '1.5rem',
 					paddingRight: '1.5rem',
 					transition: 'all 0.3s ease',
-					borderRadius: isScrolled ? '9999px' : '0.5rem',
+					borderRadius: isScrolled ? '20px' : '20px',
 					borderWidth: isScrolled ? '1px' : '0',
 					borderColor: isScrolled ? `rgba(209, 250, 229, ${0.5 + (scrolledAmount * 0.5)})` : 'transparent',
 					backgroundColor: isScrolled 

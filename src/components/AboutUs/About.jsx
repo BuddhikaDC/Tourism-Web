@@ -1,18 +1,20 @@
 import { Trophy, Leaf, ShieldCheck, Users } from 'lucide-react'
+import Heading from '../Heading/header'
 
 function About() {
 	return (
 		<section id="about" className="relative py-16">
+			<Heading />
 			<div className="absolute inset-0 pointer-events-none">
 				<span className="gradient-blob gradient-emerald left-[-40px] top-10 h-40 w-40"></span>
 				<span className="gradient-blob gradient-cyan right-[30px] bottom-10 h-36 w-36" style={{ animationDelay: '0.6s' }}></span>
 			</div>
 
 			<div className="relative mx-auto max-w-5xl px-6">
-				<div className="text-center mb-10">
+				{/* <div className="text-center mb-10">
 					<h2 className="text-3xl font-bold text-gray-900 mb-2">About Us</h2>
 					<p className="text-gray-600">Crafting unforgettable journeys across Sri Lanka's wild and wonder.</p>
-				</div>
+				</div> */}
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
 					<div className="rounded-2xl bg-white/90 backdrop-blur p-6 border border-emerald-100 shadow-sm">

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { locations } from './data';
 import './Map.css';
+import Heading from '../Heading/header';
 
 
 // Dynamic import for React Leaflet components
@@ -132,29 +133,31 @@ function Map() {
   }
 
   return (
-    <section className="map-section" id='destinations'>
-      <div className="relative mx-auto max-w-5xl px-6">
-        <h2 className="text-3xl font-bold text-emerald-700 text-center">Our Destinations</h2>
-        <p className="text-gray-600 text-center">Explore the beauty of Sri Lanka</p>
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="text-center mb-12">
+        <Heading 
+          title="Our Destinations" 
+          subtitle="Explore the beauty of Sri Lanka" 
+        />
       </div>
-    <div className="map-wrapper">
-      <MapContainer 
-        ref={mapRef}
-        center={[7.8731, 80.7718]} 
-        zoom={7.7} 
-        minZoom={7.7}
-        maxZoom={7.7}
-        zoomControl={false}
-        scrollWheelZoom={false}
-        doubleClickZoom={false}
-        dragging={false}
-        touchZoom={false}
-        boxZoom={false}
-        keyboard={false}
-        tap={false}
-        className="map-container"
-        style={{ height: '600px', width: '80%' }}
-      >
+      <div className="map-wrapper rounded-2xl overflow-hidden shadow-lg">
+        <MapContainer 
+          ref={mapRef}
+          center={[7.8731, 80.7718]} 
+          zoom={7.7} 
+          minZoom={7.7}
+          maxZoom={7.7}
+          zoomControl={false}
+          scrollWheelZoom={false}
+          doubleClickZoom={false}
+          dragging={false}
+          touchZoom={false}
+          boxZoom={false}
+          keyboard={false}
+          tap={false}
+          className="map-container"
+          style={{ height: '600px', width: '100%' }}
+        >
         <TileLayer
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=OwifIvOwabeY9if3P8Hf"
           attribution='&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -289,12 +292,11 @@ function Map() {
               {hoveredLocation.description}
             </p>
           </div>
-          
           )}
         </div>
-      </MapContainer>
+        </MapContainer>
+      </div>
     </div>
-    </section>
   );
 }
 

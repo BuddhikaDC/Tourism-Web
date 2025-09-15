@@ -10,24 +10,36 @@ import RideBookingForm from './components/RideBookingForm/RideBookingForm'
 
 
 function App() {
-
   return (
-    <>
+    <div className="min-h-screen bg-gray-50">
       <NavBar />
-      <Hero />
-      <About />
-      <Service />
-      <Map />
-      {/* Space Section */}
-      <section className="py-20 bg-gray-50">
-      </section>
-      <div className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+      <main>
+        <section className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-emerald-100/30"></div>
+          <div className="relative">
+            <Hero />
+          </div>
+        </section>
+        
+        <section className="py-16 bg-white">
+          <About />
+        </section>
+        
+        <section className="py-16 bg-gray-50">
+          <Service />
+        </section>
+        
+        <section className="py-16 bg-white">
+          <Map />
+        </section>
+        
+        <section className="py-16 bg-emerald-50">
           <RideBookingForm />
-        </div>
-      </div>
+        </section>
+      </main>
+      
       <Footer />
-    </>
+    </div>
   )
 }
 
