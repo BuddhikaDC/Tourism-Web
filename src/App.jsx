@@ -14,26 +14,31 @@ function App() {
     <div className="min-h-screen bg-gray-50">
       <NavBar />
       <main>
-        <section className="relative overflow-hidden">
+        {/* Hero Section */}
+        <section id="home" className="relative overflow-hidden scroll-mt-20">
           <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-emerald-100/30"></div>
           <div className="relative">
             <Hero />
           </div>
         </section>
         
-        <section className="py-16 bg-white">
-          <About />
-        </section>
-        
-        <section className="py-16 bg-gray-50">
+        {/* Destinations Section */}
+        <section id="service" className="py-16 bg-white scroll-mt-20">
           <Service />
         </section>
         
-        <section className="py-16 bg-white">
+        {/* About Section */}
+        <section id="about" className="py-16 bg-gray-50 scroll-mt-20">
+          <About />
+        </section>
+        
+        {/* Map Section */}
+        <section id="destinations" className="py-16 bg-white scroll-mt-20">
           <Map />
         </section>
         
-        <section className="py-16 bg-emerald-50">
+        {/* Contact Section */}
+        <section id="feelt" className="py-16 bg-emerald-50 scroll-mt-20">
           <RideBookingForm />
         </section>
       </main>

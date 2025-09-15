@@ -189,7 +189,8 @@ function RideBookingForm() {
       </div>
       
       {/* Main Section: Left Content + Form */}
-      <div className="mt-16 flex flex-col md:flex-row gap-8 items-stretch">
+      <section id="contact">
+      <div className="mt-16 flex flex-col md:flex-row gap-8 items-stretch" >
         {/* Left Side Content */}
         <div className="md:w-7/12 w-full flex flex-col justify-center py-2 md:py-0 pl-0">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-6 leading-tight max-w-[800px]">
@@ -422,6 +423,7 @@ function RideBookingForm() {
           </div>
         </div>
       </div>
+      </section>
 
       
     </div>

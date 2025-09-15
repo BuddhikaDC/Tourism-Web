@@ -101,8 +101,9 @@ function Navbar() {
 					{/* Desktop nav - custom links */}
 					<nav className="hidden md:flex items-center gap-8 mx-auto">
 						<a href="#" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Home</a>
+						<a href="#service" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Packages</a>
 						<a href="#destinations" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Destinations</a>
-						<a href="#about" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>About</a>
+						<a href="#feelt" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Our Fleet</a>
 						<a href="#contact" className="bg-emerald-600 text-white text-sm font-medium transition-colors px-4 py-2 rounded-full hover:bg-emerald-700 shadow-sm hover:shadow-md">Contact</a>
 					</nav>
 
@@ -121,8 +122,9 @@ function Navbar() {
 					<div className="md:hidden">
 						<div className="space-y-1 rounded-b-xl bg-emerald-50/95 p-4 backdrop-blur-md shadow-lg border border-emerald-100">
 							<a href="#" className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700 hover:shadow-sm">Home</a>
+							<a href="#service" className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700 hover:shadow-sm">Packages</a>
 							<a href="#destinations" className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700 hover:shadow-sm">Destinations</a>
-							<a href="#about" className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700 hover:shadow-sm">About</a>
+							<a href="#feelt" className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700 hover:shadow-sm">Our Fleet</a>
 							<a href="#contact" className="block text-center rounded-lg px-3 py-2.5 text-sm font-medium text-white bg-emerald-600 transition hover:bg-emerald-700 hover:shadow-md mt-2">Contact Us</a>
 						</div>
 					</div>
