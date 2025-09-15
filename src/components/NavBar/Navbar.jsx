@@ -62,6 +62,9 @@ function Navbar() {
         zIndex: 1001,
         width: "100%",
         position: "sticky",
+        top: 0,
+        left: 0,
+        right: 0,
         marginBottom: "0.25rem",
       }}
     >
@@ -120,17 +123,21 @@ function Navbar() {
 				</div>
 
 				{/* Mobile menu panel */}
-				{open && (
-					<div className="md:hidden">
-						<div className="space-y-1 rounded-b-xl bg-emerald-50/95 p-4 backdrop-blur-md shadow-lg border border-emerald-100">
-							<a href="#" className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700 hover:shadow-sm">Home</a>
-							<a href="#service" className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700 hover:shadow-sm">Packages</a>
-							<a href="#destinations" className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700 hover:shadow-sm">Destinations</a>
-							<a href="#feelt" className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700 hover:shadow-sm">Our Fleet</a>
-							<a href="#contact" className="block text-center rounded-lg px-3 py-2.5 text-sm font-medium text-white bg-emerald-600 transition hover:bg-emerald-700 hover:shadow-md mt-2">Contact Us</a>
+			{open && (
+				<div className="md:hidden fixed inset-0 top-16 z-50 bg-black/20 backdrop-blur-sm" onClick={() => setOpen(false)}>
+					<div className="bg-emerald-50/95 p-4 shadow-lg border border-emerald-100 animate-fadeIn">
+						<div className="space-y-1">
+							<a href="#" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700">Home</a>
+							<a href="#service" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700">Packages</a>
+							<a href="#activities" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700">Activities</a>
+							<a href="#about" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700">About Us</a>
+							<a href="#destinations" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700">Destinations</a>
+							<a href="#feelt" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block rounded-lg px-3 py-2.5 text-sm font-medium text-emerald-800 transition hover:bg-white hover:text-emerald-700">Our Fleet</a>
+							<a href="#contact" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block text-center rounded-lg px-3 py-2.5 text-sm font-medium text-white bg-emerald-600 transition hover:bg-emerald-700 mt-4">Contact Us</a>
 						</div>
-					</div>
-				)}
+						</div>
+				</div>
+			)}
 			</div>
 		</motion.div>
 	)

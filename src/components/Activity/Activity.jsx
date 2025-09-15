@@ -1,5 +1,6 @@
 import { Camera, Utensils, Mountain, Sun, MapPin, Waves } from 'lucide-react';
 import Heading from '../Heading/header';
+import { motion } from 'framer-motion';
 import trekking from '../../assets/activity/trekking.jpg';
 import wildlife from '../../assets/activity/wildlife.jpg';
 import culinary from '../../assets/activity/culinary.jpg';
@@ -59,6 +60,27 @@ function Activity() {
     }
   ];
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
   return (
     <section id="activities" className="relative py-16 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
@@ -72,11 +94,19 @@ function Activity() {
         </div>
 
         <div className="mt-12 px-4 sm:px-0">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mx-auto">
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mx-auto"
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+          >
           {activities.map((activity, index) => (
-            <div 
+            <motion.div 
               key={index}
               className="group relative h-64 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+              variants={item}
+              whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
             >
               <img 
                 src={activity.image} 
@@ -96,9 +126,9 @@ function Activity() {
                   <span>{activity.duration}</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
