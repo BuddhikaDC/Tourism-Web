@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { ChevronLeft, ChevronRight, Mountain, PawPrint, Compass, Plane } from 'lucide-react'
 import { motion } from 'framer-motion'
-import hero1 from '../../assets/hero-1.png'
+import hero2 from '../../assets/hero-2.jpg'
+import hero1 from '../../assets/hero-1.jpg'
+import hero3 from '../../assets/hero-3.jpg'
 
 function Hero() {
   const [isLoading, setIsLoading] = useState(false)
@@ -49,9 +51,8 @@ function Hero() {
   // Slideshow images
   const slideshowImages = [
     hero1,
-    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600&auto=format&fit=crop',
+    hero2,
+    hero3,
   ]
   const [currentSlide, setCurrentSlide] = useState(0)
 
