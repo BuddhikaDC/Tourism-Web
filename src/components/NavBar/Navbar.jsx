@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Menu as MenuIcon, X as XIcon } from "lucide-react"
+import {motion} from 'framer-motion'
 
 function Navbar() {
 	const [open, setOpen] = useState(false)
@@ -48,18 +49,22 @@ function Navbar() {
 	}, [])
 
 	return(
-		<div 
-			style={{
-				transform: `translateY(${Math.min(scrolledAmount * 10, 10)}px)`,
-				op: 0,
-				zIndex: 1001,
-				width: '100%',
-				transition: 'all 0.3s ease-in-out',
-				position: 'sticky',
-				marginBottom: '0.25rem',
-			}}
-			className={`${isScrolled ? 'md:top-4' : 'top-0'}`}
-		>
+		<motion.div
+      initial={{ y: 0, scale: 1, opacity: 1 }}
+      animate={{
+        y: isScrolled ? 10 : 0,
+        scale: isScrolled ? 0.97 : 1,
+        opacity: isScrolled ? 0.95 : 1,
+      }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className={`${isScrolled ? "md:top-4" : "top-0"}`}
+      style={{
+        zIndex: 1001,
+        width: "100%",
+        position: "sticky",
+        marginBottom: "0.25rem",
+      }}
+    >
 			<div 
 				style={{
 					maxWidth: '64rem',
@@ -123,7 +128,7 @@ function Navbar() {
 					</div>
 				)}
 			</div>
-		</div>
+		</motion.div>
 	)
 }
 
