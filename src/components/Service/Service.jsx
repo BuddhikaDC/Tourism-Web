@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import banner2 from "../../assets/banner-2.jpg";
 import banner3 from "../../assets/banner-3.png";
 import banner4 from "../../assets/banner-4.jpg";
+import {MessageCircle} from "lucide-react"
 
 const packageImages = [banner2, banner3, banner4];
 const packageImages2 = [banner3, banner2, banner4];
@@ -608,9 +609,7 @@ const Service = () => {
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.2 }}
             >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path fillRule="evenodd" d="M19.05 4.91a10 10 0 00-16.68 11.48l-1.88 6.84 7.02-1.84a10 10 0 0011.54-3.24 10 10 0 000-12.24zm-1.5 11.1a8 8 0 11-9.23-9.23 8 8 0 019.23 9.23zm-1.38-6.7c-.25-.12-1.47-.72-1.7-.8-.23-.08-.4-.12-.56.12-.17.25-.64.8-.79.97s-.29.18-.54.06c-.25-.11-1.05-.39-1.99-1.24-.74-.66-1.23-1.47-1.38-1.72-.15-.25-.02-.38.11-.5.11-.1.25-.27.37-.4.12-.14.17-.23.25-.4.08-.16.04-.31-.02-.43s-.56-1.35-.77-1.84c-.2-.48-.4-.42-.56-.43-.14 0-.31-.01-.47-.01s-.41.06-.62.28c-.21.22-.8.78-.8 1.9s.82 2.21.94 2.36c.12.15 1.63 2.49 3.95 3.49.54.23.96.3 1.29.36.56.1 1.07.09 1.47.05.45-.04 1.4-.57 1.6-1.13.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.47-.27z" clipRule="evenodd" />
-              </svg>
+              <MessageCircle />
               <span>Book Now on WhatsApp</span>
             </motion.a>
           </motion.div>
