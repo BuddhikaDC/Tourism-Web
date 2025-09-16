@@ -3,11 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import banner2 from "../../assets/banner-2.jpg";
 import banner3 from "../../assets/banner-3.png";
 import banner4 from "../../assets/banner-4.jpg";
-import {MessageCircle} from "lucide-react"
 
 const packageImages = [banner2, banner3, banner4];
 const packageImages2 = [banner3, banner2, banner4];
-const packageImages3 = [banner2, banner3, banner4]; // You can use different images if needed
+const packageImages3 = [banner2, banner3, banner4];
 
 const packages = [
   {
@@ -55,9 +54,9 @@ const packages = [
   },
   {
     id: 3,
-    images: packageImages2, // use same images as second package
+    images: packageImages3,
     sale: "8 Days / 7 Nights",
-    title: "Sri Lanka 8 Days Round Tour Package", // same title as second package
+    title: "Sri Lanka 8 Days Round Tour Package",
     subtitle: "Sigiriya, Kandy, Ella, Yala, Udawalawa, Tangalla, Hiriketiya, Galle, Bentota, Colombo",
     overview: "Discover Sri Lanka's best destinations in 8 days, including cultural sites, nature, and beaches.",
     route: [
@@ -78,544 +77,261 @@ const packages = [
   }
 ];
 
-// Animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      duration: 0.6,
-      ease: "easeOut"
-    }
-  }
-};
-
-const titleVariants = {
-  hidden: { opacity: 0, y: -30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut"
-    }
-  }
-};
-
-const tabVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.4,
-      ease: "easeOut"
-    }
-  }
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 50, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut"
-    }
-  }
-};
-
-const imageVariants = {
-  hidden: (direction) => ({
-    opacity: 0,
-    x: direction > 0 ? 50 : -50,
-    scale: 0.95,
-    transition: {
-      duration: 0.5,
-      ease: [0.32, 0, 0.67, 0]
-    }
-  }),
-  visible: {
-    opacity: 1,
-    x: 0,
-    scale: 1,
-    transition: {
-      duration: 0.7,
-      ease: [0.32, 0, 0.67, 0],
-      scale: { type: 'spring', stiffness: 100, damping: 15 }
-    }
-  },
-  exit: (direction) => ({
-    opacity: 0,
-    x: direction < 0 ? 50 : -50,
-    scale: 0.95,
-    transition: {
-      duration: 0.5,
-      ease: [0.32, 0, 0.67, 0]
-    }
-  })
-};
-
-const contentVariants = {
-  hidden: { opacity: 0, x: 20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-      delay: 0.2
-    }
-  },
-  exit: {
-    opacity: 0,
-    x: -20,
-    transition: {
-      duration: 0.3,
-      ease: "easeIn"
-    }
-  }
-};
-
-const listItemVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.3,
-      ease: "easeOut"
-    }
-  }
-};
-
-const vehicleCardVariants = {
-  hidden: { opacity: 0, scale: 0.9, y: 10 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      duration: 0.3,
-      ease: "easeOut"
-    }
-  }
-};
+const tabList = [
+  { key: "overview", label: "Overview" },
+  { key: "itinerary", label: "Itinerary" },
+  { key: "vehicles", label: "Vehicle Options" }
+];
 
 const Service = () => {
   const [selectedPackage, setSelectedPackage] = useState(0);
   const [slideIdx, setSlideIdx] = useState(0);
   const [activeTab, setActiveTab] = useState("overview");
-  const [isMobile, setIsMobile] = useState(false);
-  const [direction, setDirection] = useState(0); // 1 for forward, -1 for backward
+
+  // Animation variants for the itinerary list
+  const contentVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    },
+    exit: { opacity: 0 }
+  };
+
+  const listItemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 0.3 }
+    }
+  };
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    let interval;
-    if (packages[selectedPackage]?.images?.length > 1) {
-      interval = setInterval(() => {
-        const nextSlide = () => {
-          setDirection(1);
-          setSlideIdx((prev) => (prev + 1) % packages[selectedPackage].images.length);
-        };
-
-        const prevSlide = () => {
-          setDirection(-1);
-          setSlideIdx((prev) => 
-            prev === 0 ? packages[selectedPackage].images.length - 1 : prev - 1
-          );
-        };
-
-        nextSlide();
-      }, 5000);
-    }
-    
-    return () => {
-      if (interval) clearInterval(interval);
-      window.removeEventListener('resize', checkMobile);
-    };
+    const interval = setInterval(() => {
+      setSlideIdx((prev) => (prev + 1) % packages[selectedPackage].images.length);
+    }, 3000);
+    return () => clearInterval(interval);
   }, [selectedPackage]);
 
-  const tabButtonClass = (tab) =>
-    `px-3 sm:px-4 py-2 rounded-lg sm:rounded-t-lg font-medium text-sm sm:text-base transition-colors duration-200 ${
-      activeTab === tab
+  const packageTabClass = (idx) =>
+    `px-4 py-2 rounded-full font-semibold transition-colors duration-150 text-sm sm:text-base ${
+      selectedPackage === idx
         ? "bg-emerald-600 text-white shadow-md"
         : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
     }`;
 
-  const packageTabClass = (idx) =>
-    `px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-medium text-sm sm:text-base transition-colors duration-200 whitespace-nowrap ${
-      selectedPackage === idx
+  const tabButtonClass = (tab) =>
+    `px-4 py-2 rounded-lg font-semibold transition-colors duration-150 text-sm sm:text-base ${
+      activeTab === tab
         ? "bg-emerald-600 text-white shadow-md"
         : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
     }`;
 
   const pkg = packages[selectedPackage];
 
-  const handlePackageChange = (idx) => {
-    setSelectedPackage(idx);
-    setSlideIdx(0);
-    setActiveTab("overview");
-    // Smooth scroll to top of component
-    if (isMobile) {
-      document.getElementById('service-section')?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <motion.section 
-      id="service-section"
-      className="w-full bg-white py-12 md:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 text-white"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="w-full py-8 sm:py-10 px-4 sm:px-6 lg:px-8 flex justify-center items-center"
     >
-      {/* Title section */}
-      <motion.div 
-        className="w-full max-w-7xl mx-auto mb-8 md:mb-12 text-center"
-        variants={titleVariants}
-      >
-        <motion.h2 
-          className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight"
-          whileHover={{ scale: 1.02 }}
-          transition={{ duration: 0.2 }}
-        >
-          Our <span className="">Tour Packages</span>
-        </motion.h2>
-        <motion.p 
-          className="mt-3 text-base sm:text-lg text-gray-600 max-w-3xl mx-auto"
-          variants={titleVariants}
-        >
-          Discover the best of Sri Lanka with our carefully curated tour packages. Experience the beauty and diversity of our island.
-        </motion.p>
-      </motion.div>
-
-      {/* Package tabs */}
-      <motion.div 
-        className="w-full max-w-7xl mx-auto mb-8 md:mb-12"
-        variants={tabVariants}
-      >
-        <div className="flex overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide">
-          <div className="flex space-x-2 sm:space-x-3 mx-auto">
-            {packages.map((pkg, idx) => (
-              <motion.button 
-                key={pkg.id}
-                className={packageTabClass(idx)} 
-                onClick={() => handlePackageChange(idx)}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2 }}
-              >
-                {pkg.sale}
-              </motion.button>
-            ))}
-          </div>
+      <div className="max-w-5xl w-full flex flex-col items-center">
+        {/* Title and subtitle */}
+        <div className="w-full flex flex-col items-center mb-6">
+          <h2 className="text-2xl sm:text-3xl font-bold text-black tracking-tight text-center">
+            Our Packages
+          </h2>
+          <p className="mt-1 text-sm text-gray-600 text-center font-medium max-w-2xl">
+            Crafting unforgettable journeys across Sri Lanka's wild and wonder.
+          </p>
         </div>
-      </motion.div>
-
-      {/* Card with tabs */}
-      <motion.div 
-        className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 md:gap-8 items-stretch"
-        variants={cardVariants}
-      >
-        {/* Left: Image slider */}
-        <motion.div 
-          className="relative w-full lg:w-1/2 h-[280px] sm:h-[360px] md:h-[420px] rounded-xl overflow-hidden"
-          whileHover={{ scale: isMobile ? 1 : 1.02 }}
-          transition={{ duration: 0.3 }}
-        >
-          <AnimatePresence mode="wait" custom={direction} initial={false}>
-            <motion.div
-              key={`${selectedPackage}-${slideIdx}`}
-              className="relative w-full h-full overflow-hidden"
-              custom={direction}
-              variants={imageVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        
+        {/* Package tab buttons */}
+        <div className="flex flex-wrap justify-center gap-1.5 sm:gap-3 mb-4 sm:mb-6 px-2">
+          {packages.map((pkg, idx) => (
+            <button 
+              key={pkg.id}
+              className={`${packageTabClass(idx)} text-xs sm:text-sm px-3 py-1.5`} 
+              onClick={() => { 
+                setSelectedPackage(idx); 
+                setSlideIdx(0); 
+                setActiveTab("overview"); 
+              }}
             >
+              {pkg.sale}
+            </button>
+          ))}
+        </div>
+        
+        {/* Single card unit with white background */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          whileHover={{ boxShadow: "0 10px 15px -3px rgba(5, 150, 105, 0.1), 0 4px 6px -2px rgba(5, 150, 105, 0.05)" }}
+          className="w-full flex flex-col lg:flex-row rounded-xl border border-emerald-100 shadow-sm bg-white overflow-hidden max-w-5xl"
+        >
+          {/* Left: Image slider */}
+          <div className="relative w-full lg:w-2/5 aspect-video lg:aspect-[4/5] flex-shrink-0 overflow-hidden">
+            <AnimatePresence mode="wait">
               <motion.img
+                key={slideIdx}
                 src={pkg.images[slideIdx]}
                 alt={pkg.title}
                 className="absolute inset-0 w-full h-full object-cover"
-                initial={{ scale: 1.1 }}
-                animate={{ scale: 1 }}
-                transition={{ 
-                  duration: 0.8,
-                  ease: [0.32, 0, 0.67, 0],
-                  scale: { type: 'spring', stiffness: 100, damping: 10 }
-                }}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
               />
-              {/* Navigation Arrows */}
-              {pkg.images.length > 1 && (
-                <>
-                  <motion.button 
-                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 z-10 focus:outline-none focus:ring-2 focus:ring-white/50"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      prevSlide();
-                    }}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                  </motion.button>
-                  <motion.button 
-                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 z-10 focus:outline-none focus:ring-2 focus:ring-white/50"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      nextSlide();
-                    }}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    initial={{ opacity: 0, x: 10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </motion.button>
-                </>
-              )}
-              {/* Image indicators */}
-              <motion.div 
-                className="absolute bottom-4 left-0 right-0 flex justify-center gap-2"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                {pkg.images.map((_, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setDirection(index > slideIdx ? 1 : -1);
-                      setSlideIdx(index);
-                    }}
-                    className={`h-1.5 rounded-full transition-all relative overflow-hidden ${
-                      index === slideIdx ? 'bg-white w-8' : 'bg-white/50 w-4 hover:bg-white/70'
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    {index === slideIdx && (
-                      <motion.span
-                        className="absolute left-0 top-0 bottom-0 bg-white rounded-full"
-                        initial={{ width: '0%' }}
-                        animate={{ width: '100%' }}
-                        transition={{ 
-                          duration: 5,
-                          ease: 'linear',
-                          repeat: Infinity,
-                          repeatType: 'loop'
-                        }}
-                      />
-                    )}
-                  </motion.button>
-                ))}
-              </motion.div>
-            </motion.div>
-          </AnimatePresence>
-          <motion.div 
-            className="absolute top-4 left-4 bg-emerald-600 text-white rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 flex items-center font-bold text-sm sm:text-base shadow-lg shadow-emerald-300/30 z-10"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
-            whileHover={{ scale: 1.05 }}
-          >
-            <span className="whitespace-nowrap">{pkg.sale}</span>
-          </motion.div>
-        </motion.div>
-
-        {/* Right: Details with tabs */}
-        <motion.div
-          className="flex-1 flex flex-col justify-between p-5 sm:p-6 md:p-8 bg-white rounded-2xl border border-emerald-100 shadow-lg"
-          whileHover={{ 
-            y: isMobile ? 0 : -4,
-            boxShadow: isMobile 
-              ? "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)"
-              : "0 20px 25px -5px rgb(6 78 59 / 0.1), 0 10px 10px -5px rgb(6 78 59 / 0.04)"
-          }}
-          transition={{ duration: 0.3 }}
-        >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedPackage}
-              variants={contentVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="mb-4"
-            >
-              <motion.h2 
-                className="font-bold text-xl sm:text-2xl md:text-3xl text-gray-900 mb-2 leading-tight"
-                layoutId="package-title"
-              >
-                {pkg.title}
-              </motion.h2>
-              <motion.p 
-                className="text-emerald-700 text-sm sm:text-base mb-4"
-                layoutId="package-subtitle"
-              >
-                {pkg.subtitle}
-              </motion.p>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Tabs */}
-          <motion.div 
-            className="flex flex-wrap gap-2 mb-4 md:mb-6"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.3 }}
-          >
-            {["overview", "itinerary", "vehicles"].map((tab) => (
-              <motion.button 
-                key={tab}
-                className={tabButtonClass(tab)} 
-                onClick={() => setActiveTab(tab)}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.15 }}
-              >
-                {tab === "overview" && "Overview"}
-                {tab === "itinerary" && (isMobile ? "Route" : "Full Itinerary")}
-                {tab === "vehicles" && (isMobile ? "Cars" : "Our Vehicles")}
-              </motion.button>
-            ))}
-          </motion.div>
-
-          <motion.div 
-            className="bg-emerald-50/50 rounded-xl p-4 sm:p-5 border border-emerald-100 min-h-[140px] overflow-y-auto max-h-[300px] sm:max-h-[350px] scrollbar-thin scrollbar-thumb-emerald-200 scrollbar-track-transparent"
-            layout
-            transition={{ duration: 0.3 }}
-          >
-            <AnimatePresence mode="wait">
-              {activeTab === "overview" && (
-                <motion.div 
-                  className="text-gray-700 text-sm sm:text-base leading-relaxed space-y-3"
-                  variants={contentVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                >
-                  <p>{pkg.overview}</p>
-                  {pkg.additionalInfo && (
-                    <p className="text-sm text-gray-600">{pkg.additionalInfo}</p>
-                  )}
-                </motion.div>
-              )}
-              {activeTab === "itinerary" && (
-                <motion.ul 
-                  key="itinerary"
-                  className="space-y-3 text-gray-700 text-sm sm:text-base"
-                  variants={contentVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                >
-                  {pkg.route.map((r, i) => (
-                    <motion.li 
-                      key={i}
-                      className="flex items-start gap-2"
-                      variants={listItemVariants}
-                      initial="hidden"
-                      animate="visible"
-                      transition={{ delay: i * 0.05 }}
-                    >
-                      <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold mt-0.5 flex-shrink-0">
-                        {i + 1}
-                      </span>
-                      <span>{r}</span>
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              )}
-              {activeTab === "vehicles" && (
-                <motion.div 
-                  key="vehicles"
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-2"
-                  variants={contentVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                >
-                  {pkg.vehicles.map((v, i) => (
-                    <motion.div 
-                      key={i} 
-                      className="bg-white border border-emerald-100 rounded-lg p-3 sm:p-4 text-gray-800 text-sm font-medium shadow-sm hover:shadow-md transition-shadow"
-                      variants={vehicleCardVariants}
-                      initial="hidden"
-                      animate="visible"
-                      transition={{ delay: i * 0.05 }}
-                      whileHover={{ 
-                        scale: isMobile ? 1 : 1.03,
-                        y: isMobile ? 0 : -2,
-                        boxShadow: isMobile 
-                          ? "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)"
-                          : "0 10px 15px -3px rgb(6 78 59 / 0.1), 0 4px 6px -4px rgb(6 78 59 / 0.1)"
-                      }}
-                    >
-                      <div className="font-bold text-base text-gray-900 mb-1">{v.type}</div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-600 text-sm">{v.capacity} {v.capacity > 1 ? 'people' : 'person'}</span>
-                        <span className="text-emerald-700 font-bold">
-                          {v.price} <span className="text-xs text-gray-500">/day</span>
-                        </span>
-                      </div>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              )}
             </AnimatePresence>
-          </motion.div>
-
-          {/* Action buttons */}
-          <motion.div 
-            className="flex flex-col sm:flex-row gap-3 w-full mt-6 md:mt-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.4 }}
-          >
-            <motion.a
-              href={`https://wa.me/94717244821?text=${encodeURIComponent(
-                `Hello, I am interested in the "${pkg.title}" package.\n\nItinerary:\n${pkg.route.join('\n')}\n\nI would like to know more about the pricing and availability.`
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 min-w-0 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg px-4 sm:px-6 py-3 text-sm sm:text-base transition-all shadow-md shadow-emerald-200 hover:shadow-lg hover:shadow-emerald-200/50"
-              whileHover={{ 
-                y: isMobile ? 0 : -2,
-                scale: isMobile ? 1 : 1.02,
-                backgroundColor: "#059669"
-              }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-            >
-              <MessageCircle />
-              <span>Book Now on WhatsApp</span>
-            </motion.a>
-          </motion.div>
+            
+            {/* Image indicator dots */}
+            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1.5 z-10">
+              {pkg.images.map((_, index) => (
+                <button
+                  key={index}
+                  className={`w-1.5 h-1.5 rounded-full transition-all ${
+                    slideIdx === index ? 'bg-white scale-125' : 'bg-white/60'
+                  }`}
+                  onClick={() => setSlideIdx(index)}
+                  aria-label={`View image ${index + 1}`}
+                />
+              ))}
+            </div>
+            
+            <div className="absolute top-2 left-2 bg-emerald-600 text-white rounded px-2 py-0.5 text-xs font-bold shadow z-10">
+              {pkg.sale}
+            </div>
+          </div>
+          
+          {/* Right: Details with tabs */}
+          <div className="flex-1 flex flex-col p-3 sm:p-4">
+            <div>
+              <h2 className="font-bold text-lg sm:text-xl text-black mb-1">{pkg.title}</h2>
+              <div className="text-emerald-700 text-xs sm:text-sm mb-3">{pkg.subtitle}</div>
+              
+              {/* Tabs */}
+              <div className="flex flex-wrap gap-1.5 mb-3">
+                {tabList.map(tab => (
+                  <button
+                    key={tab.key}
+                    className={`${tabButtonClass(tab.key)} text-xs px-2.5 py-1`}
+                    onClick={() => setActiveTab(tab.key)}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+              
+              <div className="bg-emerald-50/50 rounded-lg p-3 border border-emerald-100 min-h-[120px] sm:min-h-[140px] overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -5 }}
+                    transition={{ duration: 0.15 }}
+                    className="h-full text-sm leading-snug"
+                  >
+                    {activeTab === "overview" && (
+                      <div className="text-gray-700 text-xs sm:text-sm leading-relaxed">{pkg.overview}</div>
+                    )}
+                    {activeTab === "itinerary" && (
+                      <motion.ul 
+                        key="itinerary"
+                        className="space-y-2 text-gray-700 text-xs sm:text-sm"
+                        variants={contentVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                      >
+                        {pkg.route.map((r, i) => (
+                          <motion.li 
+                            key={i}
+                            className="flex items-start gap-1.5"
+                            variants={listItemVariants}
+                            initial="hidden"
+                            animate="visible"
+                            transition={{ delay: i * 0.04 }}
+                          >
+                            <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold mt-0.5 flex-shrink-0">
+                              {i + 1}
+                            </span>
+                            <span className="text-xs sm:text-sm">{r}</span>
+                          </motion.li>
+                        ))}
+                      </motion.ul>
+                    )}
+                    {activeTab === "vehicles" && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {pkg.vehicles.map((v, i) => (
+                          <motion.div 
+                            key={i} 
+                            className="bg-white border border-emerald-200 rounded-md p-2 text-black text-xs sm:text-sm font-medium shadow-sm hover:shadow transition-all"
+                            whileHover={{ scale: 1.02, boxShadow: "0 2px 4px -1px rgba(5, 150, 105, 0.1)" }}
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: i * 0.08 }}
+                          >
+                            <div className="font-semibold text-emerald-700 text-xs sm:text-sm">{v.type}</div>
+                            <div className="text-gray-500 text-[10px] sm:text-xs">({v.capacity} pax)</div>
+                            <div className="text-emerald-700 font-bold text-xs sm:text-sm">
+                              {v.price} <span className="text-gray-500 font-normal">/day</span>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+            
+            {/* Book button */}
+            <div className="mt-3 sm:mt-4">
+              <motion.a
+                whileHover={{ scale: 1.02, backgroundColor: "#047857" }}
+                whileTap={{ scale: 0.98 }}
+                href={`https://wa.me/94778888888?text=Hi!%20I'm%20interested%20in%20the%20${encodeURIComponent(
+                  pkg.title
+                )}%20tour%20package.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-md px-4 py-2 text-sm sm:text-sm text-center shadow-sm transition-colors"
+              >
+                Book Now
+              </motion.a>
+              <p className="text-[10px] text-gray-400 text-center mt-1">
+                WhatsApp us to book this package
+              </p>
+            </div>
+          </div>
         </motion.div>
-      </motion.div>
-    </motion.section>
+        
+        {/* Package indicator for mobile */}
+        <div className="lg:hidden flex justify-center mt-6 space-x-2">
+          {packages.map((_, idx) => (
+            <button
+              key={idx}
+              className={`w-2 h-2 rounded-full ${
+                selectedPackage === idx ? 'bg-emerald-600' : 'bg-gray-300'
+              }`}
+              onClick={() => {
+                setSelectedPackage(idx);
+                setSlideIdx(0);
+                setActiveTab("overview");
+              }}
+              aria-label={`Select package ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </motion.div>
   );
 };
 
