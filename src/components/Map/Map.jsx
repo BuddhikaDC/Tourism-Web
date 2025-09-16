@@ -144,14 +144,14 @@ function Map() {
         <MapContainer 
           ref={mapRef}
           center={[7.8731, 80.7718]} 
-          zoom={7.7} 
-          minZoom={7.7}
-          maxZoom={7.7}
+          zoom={7.5} 
+          minZoom={6}
+          maxZoom={7.5}
           zoomControl={false}
           scrollWheelZoom={false}
           doubleClickZoom={false}
           dragging={false}
-          touchZoom={false}
+          touchZoom={true}
           boxZoom={false}
           keyboard={false}
           tap={false}
