@@ -7,27 +7,50 @@ import About from './components/AboutUs/About'
 import Map from './components/Map/Map'
 import Footer from './components/Footer/Footer'
 import RideBookingForm from './components/RideBookingForm/RideBookingForm'
+import Activity from './components/Activity/Activity'
 
 
 function App() {
-
   return (
-    <>
+    <div className="min-h-screen bg-gray-50">
       <NavBar />
-      <Hero />
-      <About />
-      <Service />
-      <Map />
-      {/* Space Section */}
-      <section className="py-20 bg-gray-50">
-      </section>
-      <div className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+      <main>
+        {/* Hero Section */}
+        <section id="home" className="relative overflow-hidden scroll-mt-20">
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-emerald-100/30"></div>
+          <div className="relative">
+            <Hero />
+          </div>
+        </section>
+        
+        {/* Destinations Section */}
+        <section id="service" className="py-16 bg-white scroll-mt-20">
+          <Service />
+        </section>
+        
+        {/* Activities Section */}
+        <section id="activities" className="scroll-mt-20">
+          <Activity />
+        </section>
+        
+        {/* About Section */}
+        <section id="about" className="py-16 bg-gray-50 scroll-mt-20">
+          <About />
+        </section>
+        
+        {/* Map Section */}
+        <section id="destinations" className="py-16 bg-white scroll-mt-20">
+          <Map />
+        </section>
+        
+        {/* Contact Section */}
+        <section id="feelt" className="py-16 bg-emerald-50 scroll-mt-20">
           <RideBookingForm />
-        </div>
-      </div>
+        </section>
+      </main>
+      
       <Footer />
-    </>
+    </div>
   )
 }
 
