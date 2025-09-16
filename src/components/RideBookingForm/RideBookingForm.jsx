@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Check, MessageCircle } from 'lucide-react';
+import { ChevronDown, Check, MessageCircle, Search, MapPin, Map } from 'lucide-react';
+import LocationPicker from '../Map/Location';
 import Heading from '../Heading/header';
 import kdh from "../../assets/KDH.png"
 import prius from "../../assets/sedan.png"
 import wagonr from "../../assets/WagonR.png"
 
-// Animation variants
+// Animation variants (same as before)
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -118,6 +119,21 @@ const featureVariants = {
   }
 };
 
+// Tab transition variants
+const tabContentVariants = {
+  hidden: { opacity: 0, x: 20 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.3 }
+  },
+  exit: { 
+    opacity: 0, 
+    x: -20,
+    transition: { duration: 0.2 }
+  }
+};
+
 function RideBookingForm() {
   const [activeTab, setActiveTab] = useState('ride')
   const [formData, setFormData] = useState({
@@ -127,9 +143,23 @@ function RideBookingForm() {
     pickupTimeHours: '18',
     pickupTimeMinutes: '30',
     vehicle: '',
-    totalPrice: 'LKR 0.00',
-    customRequest: ''
+    customRequest: '',
+    pickupCoords: null,
+    dropCoords: null
   })
+
+  // State for search functionality
+  const [pickupSearch, setPickupSearch] = useState('')
+  const [dropSearch, setDropSearch] = useState('')
+  const [pickupSuggestions, setPickupSuggestions] = useState([])
+  const [dropSuggestions, setDropSuggestions] = useState([])
+  const [showPickupSuggestions, setShowPickupSuggestions] = useState(false)
+  const [showDropSuggestions, setShowDropSuggestions] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLocationLoading, setIsLocationLoading] = useState({
+    pickup: false,
+    drop: false
+  });
 
   const vehicleTypes = [
     'Mini Car',
@@ -137,85 +167,124 @@ function RideBookingForm() {
     'Van'
   ]
 
-  const pickupDestinations = [
-    'Katunayaka',
-    'Mattala',
-    'Thissamaharama',
-    'Yala'
-  ]
-
-  const dropDestinations = [
-    'Adams Peak',
-    'Ahangama',
-    'Ahungalla',
-    'Ambalangoda',
-    'Anuradapura',
-    'Arugambe',
-    'Awissawella',
-    'Badulla',
-    'Balapitiya',
-    'Banarawela',
-    'Baticola',
-    'Batticaloa',
-    'Beliatta',
-    'Benthota',
-    'Beruwala',
-    'Colombo',
-    'Dabulla',
-    'Dikwalla',
-    'Ella',
-    'Galle',
-    'Hambanthota',
-    'Haputale',
-    'Hatton',
-    'Hikkaduwa',
-    'Hireketiya',
-    'Hirikatiya',
-    'Hiriketiya',
-    'Kabalana',
-    'Kalamatiya',
-    'Kandy',
-    'Katharagama',
-    'Katunayaka',
-    'Koggala',
-    'Kosgoda',
-    'Kurunegala',
-    'Madolduwa',
-    'Mathale',
-    'Midigama',
-    'Mirissa',
-    'Negambo',
-    'Neuwara Eliya',
-    'Nuwara Eliya',
-    'Polhena',
-    'Polonaruwa',
-    'Pothuwil',
-    'Puttalam',
-    'Rakawa',
-    'Rathnapura',
-    'Rekawa',
-    'Sigiriya',
-    'Sinharajaya',
-    'Talalla',
-    'Talpe',
-    'Tangalle',
-    'Thangalla',
-    'Thissamaharama',
-    'Trincomalee',
-    'Udawalawa',
-    'Udawalawa 1',
-    'Udawalawa 2 high way',
-    'Unawatuna',
-    'Vilpaththuwa',
-    'Waligama',
-    'Yaala'
-  ]
-
   const vehicles = [
     { name: 'Mini Car', img:wagonr, blurb: 'Compact and economical — great for city tours.' },
     { name: 'Sedan', img: prius, blurb: 'Comfortable intercity rides for 3–4 passengers.' },
     { name: 'Van', img: kdh, blurb: 'Spacious van ideal for families and travel groups.' }
   ]
+
+  // Debounced search function
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func.apply(this, args), delay);
+    };
+  };
+
+  // Fetch cities from API
+  const fetchCities = async (query, setSuggestions) => {
+    if (!query || query.length < 2) {
+      setSuggestions([]);
+      return;
+    }
+    
+    setIsLoading(true);
+    try {
+      const response = await fetch(`https://slcities.live/api/cities/search?q=${query}`);
+      if (response.ok) {
+        const data = await response.json();
+        // Limit to 10 results
+        setSuggestions(data.slice(0, 10));
+      } else {
+        setSuggestions([]);
+      }
+    } catch (error) {
+      console.error('Error fetching cities:', error);
+      setSuggestions([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Debounced versions of the fetch functions
+  const debouncedFetchPickupCities = useCallback(
+    debounce((query) => fetchCities(query, setPickupSuggestions), 300),
+    []
+  );
+
+  const debouncedFetchDropCities = useCallback(
+    debounce((query) => fetchCities(query, setDropSuggestions), 300),
+    []
+  );
+
+  // Handle search input changes
+  const handlePickupSearchChange = (value) => {
+    setPickupSearch(value);
+    debouncedFetchPickupCities(value);
+  };
+
+  const handleDropSearchChange = (value) => {
+    setDropSearch(value);
+    debouncedFetchDropCities(value);
+  };
+
+  // Refs for location pickers
+  const pickupMapRef = useRef();
+  const dropMapRef = useRef();
+
+  // Handle location selection from map
+  const handleLocationSelect = (type) => async (location) => {
+    setIsLocationLoading(prev => ({ ...prev, [type]: true }));
+    
+    try {
+      const { position, address } = location;
+      const coords = position ? { lat: position[0], lng: position[1] } : null;
+      
+      if (type === 'pickup') {
+        // Update both form data and search state
+        setFormData(prev => ({
+          ...prev,
+          pickupDestination: address,
+          pickupCoords: coords
+        }));
+        setPickupSearch(address);
+      } else {
+        setFormData(prev => ({
+          ...prev,
+          dropDestination: address,
+          dropCoords: coords
+        }));
+        setDropSearch(address);
+      }
+    } catch (error) {
+      console.error('Error selecting location:', error);
+    } finally {
+      setIsLocationLoading(prev => ({ ...prev, [type]: false }));
+    }
+    setShowPickupSuggestions(false);
+    setShowDropSuggestions(false);
+  };
+
+  // Handle map button click
+  const handleOpenMap = (type) => {
+    const ref = type === 'pickup' ? pickupMapRef : dropMapRef;
+    const currentAddress = type === 'pickup' ? pickupSearch : dropSearch;
+    ref.current?.open(undefined, currentAddress);
+  };
+
+  // Handle destination selection from search
+  const handlePickupSelect = (city) => {
+    setFormData(prev => ({ ...prev, pickupDestination: city.city_name_en }));
+    setPickupSearch(city.city_name_en);
+    setShowPickupSuggestions(false);
+  };
+
+  const handleDropSelect = (city) => {
+    setFormData(prev => ({ ...prev, dropDestination: city.city_name_en }));
+    setDropSearch(city.city_name_en);
+    setShowDropSuggestions(false);
+  };
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
@@ -226,7 +295,46 @@ function RideBookingForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
+    
+    // Check if all required fields are filled
+    const requiredFields = ['pickupDestination', 'dropDestination', 'pickupDate', 'vehicle'];
+    const isFormValid = requiredFields.every(field => formData[field]);
+    
+    if (!isFormValid) {
+      alert('Please fill in all required fields');
+      return;
+    }
+    
+    // Format the message
+    const formatCoords = (coords) => coords ? ` (${coords.lat.toFixed(6)}, ${coords.lng.toFixed(6)})` : '';
+    
+    const message = `🚗 *New Ride Booking*\n\n` +
+      `*Pickup:**  ${formData.pickupDestination}${formatCoords(formData.pickupCoords)}\n` +
+      `*Drop Off:*  ${formData.dropDestination}${formatCoords(formData.dropCoords)}\n` +
+      `*Date:*  ${formData.pickupDate}\n` +
+      `*Time:*  ${formData.pickupTimeHours}:${formData.pickupTimeMinutes}\n` +
+      `*Vehicle Type:*  ${formData.vehicle}\n` +
+      (formData.customRequest ? `📝 *Special Request:* ${formData.customRequest}\n` : '') +
+      `\n🌍 *Map Links*\n` +
+      (formData.pickupCoords ? `- Pickup: https://www.google.com/maps?q=${formData.pickupCoords.lat},${formData.pickupCoords.lng}\n` : '') +
+      (formData.dropCoords ? `- Drop: https://www.google.com/maps?q=${formData.dropCoords.lat},${formData.dropCoords.lng}` : '');
+    
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Open WhatsApp with the message (replace with your WhatsApp business number)
+    window.open(`https://wa.me/94787177503?text=${encodedMessage}`, '_blank');
+    
+    // Optional: Reset form after submission
+    // setFormData({
+    //   pickupDestination: '',
+    //   dropDestination: '',
+    //   pickupDate: new Date().toISOString().split('T')[0],
+    //   pickupTimeHours: '18',
+    //   pickupTimeMinutes: '30',
+    //   vehicle: '',
+    //   customRequest: ''
+    // });
   }
 
   const tabs = [
@@ -242,12 +350,17 @@ function RideBookingForm() {
   ];
 
   return (
-    <motion.div 
-      className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-    >
+    <div className="relative">
+      {/* Location Pickers */}
+      <LocationPicker ref={pickupMapRef} onSelect={handleLocationSelect('pickup')} />
+      <LocationPicker ref={dropMapRef} onSelect={handleLocationSelect('drop')} />
+      
+      <motion.div 
+        className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
       {/* Header Section */}
       <motion.div className="text-center mb-12" variants={headerVariants}>
         <Heading 
@@ -441,10 +554,10 @@ function RideBookingForm() {
                     {activeTab === 'ride' && (
                       <motion.div
                         key="ride-form"
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.3 }}
+                        variants={tabContentVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
                         className="space-y-3 sm:space-y-4"
                       >
                         {/* Pickup Destination */}
@@ -453,23 +566,66 @@ function RideBookingForm() {
                             Pickup Destination
                           </label>
                           <div className="relative">
-                            <motion.select
-                              value={formData.pickupDestination}
-                              onChange={(e) => handleInputChange('pickupDestination', e.target.value)}
-                              className="w-full bg-white border border-gray-300 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 appearance-none cursor-pointer"
-                              whileFocus={{ scale: 1.02 }}
-                              transition={{ duration: 0.2 }}
-                            >
-                              <option value="" disabled className="bg-white text-gray-500">
-                                Select Destination
-                              </option>
-                              {pickupDestinations.map((destination) => (
-                                <option key={destination} value={destination} className="bg-white text-gray-900">
-                                  {destination}
-                                </option>
-                              ))}
-                            </motion.select>
-                            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5 pointer-events-none" />
+                            <div className="relative">
+                              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
+                              <div className="relative flex items-center">
+                                <Search className="absolute left-3 text-gray-500 w-5 h-5" />
+                                <motion.input
+                                  type="text"
+                                  value={pickupSearch}
+                                  onChange={(e) => handlePickupSearchChange(e.target.value)}
+                                  onFocus={() => setShowPickupSuggestions(true)}
+                                  placeholder="Search for pickup location..."
+                                  className="w-full bg-white border border-gray-300 rounded-lg pl-10 pr-10 py-2.5 sm:py-3 text-sm sm:text-base text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                                  whileFocus={{ scale: 1.02 }}
+                                  transition={{ duration: 0.2 }}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => handleOpenMap('pickup')}
+                                  disabled={isLocationLoading.pickup}
+                                  className={`absolute right-2 p-1 rounded-full ${
+                                    isLocationLoading.pickup 
+                                      ? 'text-gray-300 cursor-not-allowed' 
+                                      : 'text-gray-500 hover:text-emerald-600 hover:bg-gray-100'
+                                  }`}
+                                  title={isLocationLoading.pickup ? 'Loading...' : 'Select from map'}
+                                >
+                                  {isLocationLoading.pickup ? (
+                                    <div className="w-5 h-5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+                                  ) : (
+                                    <MapPin className="w-5 h-5 text-emerald-500" />
+                                  )}
+                                </button>
+                              </div>
+                            </div>
+                            
+                            {/* Suggestions dropdown */}
+                            {showPickupSuggestions && (
+                              <motion.div 
+                                className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto"
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                              >
+                                {isLoading ? (
+                                  <div className="p-3 text-center text-gray-500">Searching...</div>
+                                ) : pickupSuggestions.length > 0 ? (
+                                  pickupSuggestions.map((city, index) => (
+                                    <div
+                                      key={index}
+                                      className="p-3 cursor-pointer hover:bg-gray-100"
+                                      onClick={() => handlePickupSelect(city)}
+                                    >
+                                      <div className="font-medium">{city.city_name_en}</div>
+                                      <div className="text-xs text-gray-500">{city.district_name_en}</div>
+                                    </div>
+                                  ))
+                                ) : pickupSearch.length > 1 ? (
+                                  <div className="p-3 text-center text-gray-500">No results found</div>
+                                ) : null}
+                              </motion.div>
+                            )}
                           </div>
                         </motion.div>
 
@@ -495,23 +651,66 @@ function RideBookingForm() {
                             Drop Destination
                           </label>
                           <div className="relative">
-                            <motion.select
-                              value={formData.dropDestination}
-                              onChange={(e) => handleInputChange('dropDestination', e.target.value)}
-                              className="w-full bg-white border border-gray-300 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 appearance-none cursor-pointer"
-                              whileFocus={{ scale: 1.02 }}
-                              transition={{ duration: 0.2 }}
-                            >
-                              <option value="" disabled className="text-gray-500">
-                                Select Destination
-                              </option>
-                              {dropDestinations.map((destination) => (
-                                <option key={destination} value={destination} className="bg-white text-gray-900">
-                                  {destination}
-                                </option>
-                              ))}
-                            </motion.select>
-                            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5 pointer-events-none" />
+                            <div className="relative">
+                              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
+                              <div className="relative flex items-center">
+                                <Search className="absolute left-3 text-gray-500 w-5 h-5" />
+                                <motion.input
+                                  type="text"
+                                  value={dropSearch}
+                                  onChange={(e) => handleDropSearchChange(e.target.value)}
+                                  onFocus={() => setShowDropSuggestions(true)}
+                                  placeholder="Search for drop location..."
+                                  className="w-full bg-white border border-gray-300 rounded-lg pl-10 pr-10 py-2.5 sm:py-3 text-sm sm:text-base text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                                  whileFocus={{ scale: 1.02 }}
+                                  transition={{ duration: 0.2 }}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => handleOpenMap('drop')}
+                                  disabled={isLocationLoading.drop}
+                                  className={`absolute right-2 p-1 rounded-full ${
+                                    isLocationLoading.drop 
+                                      ? 'text-gray-300 cursor-not-allowed' 
+                                      : 'text-gray-500 hover:text-emerald-600 hover:bg-gray-100'
+                                  }`}
+                                  title={isLocationLoading.drop ? 'Loading...' : 'Select from map'}
+                                >
+                                  {isLocationLoading.drop ? (
+                                    <div className="w-5 h-5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+                                  ) : (
+                                    <MapPin className="w-5 h-5 text-emerald-500" />
+                                  )}
+                                </button>
+                              </div>
+                            </div>
+                            
+                            {/* Suggestions dropdown */}
+                            {showDropSuggestions && (
+                              <motion.div 
+                                className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto"
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                              >
+                                {isLoading ? (
+                                  <div className="p-3 text-center text-gray-500">Searching...</div>
+                                ) : dropSuggestions.length > 0 ? (
+                                  dropSuggestions.map((city, index) => (
+                                    <div
+                                      key={index}
+                                      className="p-3 cursor-pointer hover:bg-gray-100"
+                                      onClick={() => handleDropSelect(city)}
+                                    >
+                                      <div className="font-medium">{city.city_name_en}</div>
+                                      <div className="text-xs text-gray-500">{city.district_name_en}</div>
+                                    </div>
+                                  ))
+                                ) : dropSearch.length > 1 ? (
+                                  <div className="p-3 text-center text-gray-500">No results found</div>
+                                ) : null}
+                              </motion.div>
+                            )}
                           </div>
                         </motion.div>
 
@@ -579,32 +778,16 @@ function RideBookingForm() {
                             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5 pointer-events-none" />
                           </div>
                         </motion.div>
-
-                        {/* Total Price */}
-                        <motion.div variants={formFieldVariants}>
-                          <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
-                            Total Price
-                          </label>
-                          <motion.div 
-                            className="bg-gray-100 border border-gray-300 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-gray-900"
-                            animate={{ 
-                              scale: formData.totalPrice !== 'LKR 0.00' ? [1, 1.02, 1] : 1
-                            }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            {formData.totalPrice}
-                          </motion.div>
-                        </motion.div>
                       </motion.div>
                     )}
 
                     {activeTab === 'trip' && (
                       <motion.div
                         key="trip-form"
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.3 }}
+                        variants={tabContentVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
                       >
                         <div className="text-center mb-6">
                           <motion.h3 
@@ -631,10 +814,10 @@ function RideBookingForm() {
                     {activeTab === 'custom' && (
                       <motion.div
                         key="custom-form"
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.3 }}
+                        variants={tabContentVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
                       >
                         <div className="text-center mb-6">
                           <motion.h3 
@@ -662,7 +845,7 @@ function RideBookingForm() {
                   {/* Reserve Now Button */}
                   <motion.button
                     type="submit"
-                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 sm:py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/20 shadow-lg text-sm sm:text-base"
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 sm:py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/20 shadow-lg text-sm sm:text-base flex items-center justify-center gap-2"
                     whileHover={{ 
                       scale: 1.02,
                       boxShadow: "0 10px 25px -3px rgba(6, 78, 59, 0.3)"
@@ -671,9 +854,11 @@ function RideBookingForm() {
                     transition={{ duration: 0.2 }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    onSubmit={handleSubmit}
                   >
-                    Reserve Now
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.150-.197.297-.767.963-.94 1.16-.174.196-.347.221-.644.075-.297-.15-1.264-.465-2.4-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.298-.018-.46.13-.608.136-.13.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.508-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.040 1.016-1.040 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.718 2.005-1.413.248-.694.248-1.289.173-1.413-.074-.124-.273-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.510-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.549 4.142 1.595 5.945L0 24l6.335-1.652a11.882 11.882 0 005.723 1.467h.005c6.554 0 11.89-5.335 11.89-11.893 0-3.18-1.26-6.167-3.548-8.413z"/>
+                    </svg>
+                    Book via WhatsApp
                   </motion.button>
                 </form>
               </motion.div>
@@ -681,7 +866,8 @@ function RideBookingForm() {
           </motion.div>
         </div>
       </section>
-    </motion.div>
+      </motion.div>
+    </div>
   )
 }
 
