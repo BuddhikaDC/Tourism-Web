@@ -95,25 +95,23 @@ function Navbar() {
         style={{
           marginLeft: 'auto',
           marginRight: 'auto',
+          marginBottom:'none',
           paddingLeft: isMobile ? '1rem' : '1.5rem', // Adjust padding for mobile
           paddingRight: isMobile ? '1rem' : '1.5rem',
           transition: 'all 0.3s ease',
-          borderRadius: getBorderRadius(), // Use the function to determine border radius
+          borderRadius: isMobile ? '0' : '20px', // Remove border radius on mobile
           borderWidth: isScrolled ? '1px' : '0',
           borderColor: isScrolled ? `rgba(209, 250, 229, ${0.5 + (scrolledAmount * 0.5)})` : 'transparent',
           backgroundColor:'white',
           backdropFilter: isMobile ? 'none' : 'blur(12px)', // No blur on mobile for performance
-		  boxShadow: isScrolled 
-		  ? `0 6px 12px -2px rgba(0, 0, 0, ${0.15 + (scrolledAmount * 0.07)}), 
-			 0 4px 8px -2px rgba(0, 0, 0, ${0.08 + (scrolledAmount * 0.06)})` 
-		  : isMobile 
-			? '0 2px 6px 0 rgba(0, 0, 0, 0.85), 0 2px 4px 0 rgba(0, 0, 0, 0.65)' 
-			: '0 4px 10px 0 rgba(0, 0, 0, 0.25)', // Instead of "none", still show a subtle shadow
-			boxShadow: isMobile 
-			? (isScrolled 
-				? '0 4px 6px -1px rgba(27, 26, 26, 0.44)' 
-				: 'none') 
-			: 'none',		  
+          boxShadow: isMobile 
+          ? (isScrolled 
+              ? '0 4px 6px -1px rgba(27, 26, 26, 0.44)' 
+              : 'none') 
+          : (isScrolled 
+              ? `0 6px 12px -2px rgba(0, 0, 0, ${0.15 + (scrolledAmount * 0.07)}), 
+                 0 4px 8px -2px rgba(0, 0, 0, ${0.08 + (scrolledAmount * 0.06)})` 
+              : ''),
 		
           transform: isMobile ? 'none' : `scale(${1 - (scrolledAmount * 0.01)})`, // No scaling on mobile
         }}

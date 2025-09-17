@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Check, MessageCircle, Search, MapPin, Map } from 'lucide-react';
-import LocationPicker from '../Map/Location';
+import { ChevronDown, Check, MessageCircle, Search, Map } from 'lucide-react';
 import Heading from '../Heading/header';
 import kdh from "../../assets/KDH.png"
 import prius from "../../assets/sedan.png"
@@ -309,13 +308,12 @@ function RideBookingForm() {
     const formatCoords = (coords) => coords ? ` (${coords.lat.toFixed(6)}, ${coords.lng.toFixed(6)})` : '';
     
     const message = `🚗 *New Ride Booking*\n\n` +
-      `*Pickup:**  ${formData.pickupDestination}${formatCoords(formData.pickupCoords)}\n` +
+      `*Pickup:*  ${formData.pickupDestination}${formatCoords(formData.pickupCoords)}\n` +
       `*Drop Off:*  ${formData.dropDestination}${formatCoords(formData.dropCoords)}\n` +
       `*Date:*  ${formData.pickupDate}\n` +
       `*Time:*  ${formData.pickupTimeHours}:${formData.pickupTimeMinutes}\n` +
       `*Vehicle Type:*  ${formData.vehicle}\n` +
-      (formData.customRequest ? `📝 *Special Request:* ${formData.customRequest}\n` : '') +
-      `\n🌍 *Map Links*\n` +
+      (formData.customRequest ? `📝 *Special Request:* ${formData.customRequest}\n` : '')+
       (formData.pickupCoords ? `- Pickup: https://www.google.com/maps?q=${formData.pickupCoords.lat},${formData.pickupCoords.lng}\n` : '') +
       (formData.dropCoords ? `- Drop: https://www.google.com/maps?q=${formData.dropCoords.lat},${formData.dropCoords.lng}` : '');
     
@@ -351,10 +349,6 @@ function RideBookingForm() {
 
   return (
     <div className="relative">
-      {/* Location Pickers */}
-      <LocationPicker ref={pickupMapRef} onSelect={handleLocationSelect('pickup')} />
-      <LocationPicker ref={dropMapRef} onSelect={handleLocationSelect('drop')} />
-      
       <motion.div 
         className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
         initial="hidden"
@@ -591,10 +585,8 @@ function RideBookingForm() {
                                   }`}
                                   title={isLocationLoading.pickup ? 'Loading...' : 'Select from map'}
                                 >
-                                  {isLocationLoading.pickup ? (
+                                  {isLocationLoading.pickup && (
                                     <div className="w-5 h-5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-                                  ) : (
-                                    <MapPin className="w-5 h-5 text-emerald-500" />
                                   )}
                                 </button>
                               </div>
@@ -678,9 +670,7 @@ function RideBookingForm() {
                                 >
                                   {isLocationLoading.drop ? (
                                     <div className="w-5 h-5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-                                  ) : (
-                                    <MapPin className="w-5 h-5 text-emerald-500" />
-                                  )}
+                                  ) :null}
                                 </button>
                               </div>
                             </div>
