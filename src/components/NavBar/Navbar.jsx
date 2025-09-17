@@ -130,9 +130,9 @@ function Navbar() {
           {/* Desktop nav - custom links */}
           <nav className="hidden md:flex items-center gap-8 mx-auto">
             <a href="#" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Home</a>
+            <a href="#about" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>About Us</a>
             <a href="#service" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Packages</a>
             <a href="#activities" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Activities</a>
-            <a href="#about" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>About Us</a>
             <a href="#destinations" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Destinations</a>
             <a href="#feelt" className={`${isScrolled ? 'text-emerald-700 hover:text-emerald-500' : 'text-emerald-800 hover:text-emerald-600'} text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50`}>Our Fleet</a>
             <a href="#contact" className="bg-emerald-600 text-white text-sm font-medium transition-colors px-4 py-2 rounded-full hover:bg-emerald-700 shadow-sm hover:shadow-md">Contact</a>
@@ -175,12 +175,12 @@ function Navbar() {
               </div>
               <div className="p-4 space-y-1">
                 <a href="#" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block px-3 py-3 text-base font-medium text-emerald-800 transition hover:bg-emerald-50">Home</a>
+                <a href="#about" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block px-3 py-3 text-base font-medium text-emerald-800 transition hover:bg-emerald-50">About Us</a>
                 <a href="#service" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block px-3 py-3 text-base font-medium text-emerald-800 transition hover:bg-emerald-50">Packages</a>
                 <a href="#activities" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block px-3 py-3 text-base font-medium text-emerald-800 transition hover:bg-emerald-50">Activities</a>
-                <a href="#about" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block px-3 py-3 text-base font-medium text-emerald-800 transition hover:bg-emerald-50">About Us</a>
                 <a href="#destinations" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block px-3 py-3 text-base font-medium text-emerald-800 transition hover:bg-emerald-50">Destinations</a>
                 <a href="#feelt" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block px-3 py-3 text-base font-medium text-emerald-800 transition hover:bg-emerald-50">Our Fleet</a>
-                <a href="#contact" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block w-full text-center px-4 py-3 mt-4 text-base font-medium text-white bg-emerald-600 transition hover:bg-emerald-700">Contact Us</a>
+                <a href="#contact" onClick={(e) => { e.stopPropagation(); setOpen(false); }} className="block w-full text-center px-4 py-3 mt-4 text-base font-medium text-white bg-emerald-600 transition hover:bg-emerald-700 rounded-full">Contact Us</a>
               </div>
             </motion.div>
           </div>
