@@ -22,6 +22,11 @@ function App() {
             <Hero />
           </div>
         </section>
+
+        {/* About Section */}
+        <section id="about" className="py-16 bg-gray-50 scroll-mt-20">
+          <About />
+        </section>
         
         {/* Destinations Section */}
         <section id="service" className="py-16 bg-white scroll-mt-20">
@@ -31,11 +36,6 @@ function App() {
         {/* Activities Section */}
         <section id="activities" className="scroll-mt-20">
           <Activity />
-        </section>
-        
-        {/* About Section */}
-        <section id="about" className="py-16 bg-gray-50 scroll-mt-20">
-          <About />
         </section>
         
         {/* Map Section */}
