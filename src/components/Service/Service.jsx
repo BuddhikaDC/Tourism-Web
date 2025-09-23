@@ -297,9 +297,12 @@ const Service = () => {
               <motion.a
                 whileHover={{ scale: 1.02, backgroundColor: "#047857" }}
                 whileTap={{ scale: 0.98 }}
-                href={`https://wa.me/94778888888?text=Hi!%20I'm%20interested%20in%20the%20${encodeURIComponent(
-                  pkg.title
-                )}%20tour%20package.`}
+                href={`https://wa.me/94777123274?text=${encodeURIComponent(
+                  `Hi! I'm interested in booking the following tour package:\n\n` +
+                  `📌 *${pkg.title}*\n` +
+                  `⏱️ *Duration:* ${pkg.sale}`
+                )}`}
+                
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-md px-4 py-2 text-sm sm:text-sm text-center shadow-sm transition-colors"
