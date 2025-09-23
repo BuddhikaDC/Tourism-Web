@@ -320,8 +320,8 @@ function RideBookingForm() {
     // Encode the message for URL
     const encodedMessage = encodeURIComponent(message);
     
-    // Open WhatsApp with the message (replace with your WhatsApp business number)
-    window.open(`https://wa.me/94787177503?text=${encodedMessage}`, '_blank');
+    // Open WhatsApp with the message
+    window.open(`https://wa.me/94777123274?text=${encodedMessage}`, '_blank');
     
     // Optional: Reset form after submission
     // setFormData({

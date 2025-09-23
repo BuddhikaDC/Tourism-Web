@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { ChevronLeft, ChevronRight, Mountain, PawPrint, Compass, Plane } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Mountain, PawPrint, Compass, Plane, ExternalLink, CalendarCheck } from 'lucide-react'
 import { motion } from 'framer-motion'
 import hero2 from '../../assets/hero-2.jpg'
 import hero1 from '../../assets/hero-1.jpg'
@@ -144,9 +144,18 @@ function Hero() {
           className="relative z-10 w-full"
         >
           <div className="mx-auto flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md p-3">
-            <button className="w-full sm:w-auto rounded-full bg-cyan-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-cyan-500">
-              Destination
-            </button>
+            <a 
+              href="https://www.tripadvisor.com/Attraction_Review-g1102395-d33024553-Reviews-Mr_travel_Travel_Tours_Sri_Lanka-Tissamaharama_Southern_Province.html" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group relative flex items-center justify-center gap-2 w-full sm:w-auto rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-amber-500/30 transition-all hover:shadow-xl hover:shadow-amber-500/40 hover:scale-[1.02] transform-gpu"
+            >
+              <span className="absolute -inset-1 rounded-full bg-amber-400/30 opacity-0 group-hover:opacity-100 blur-md transition-all duration-300 group-hover:duration-500"></span>
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm6 16.9c0 .3-.2.5-.5.5h-11c-.3 0-.5-.2-.5-.5v-9.8c0-.3.2-.5.5-.5h11c.3 0 .5.2.5.5v9.8zM12 7.3c-2.6 0-4.7 2.1-4.7 4.7s2.1 4.7 4.7 4.7 4.7-2.1 4.7-4.7-2.1-4.7-4.7-4.7zm0 7.5c-1.5 0-2.8-1.2-2.8-2.8s1.2-2.8 2.8-2.8 2.8 1.2 2.8 2.8-1.3 2.8-2.8 2.8z"/>
+              </svg>
+              <span className="relative">TripAdvisor</span>
+            </a>
             <button 
               onClick={() => {
                 const contactSection = document.getElementById('contact');
@@ -154,8 +163,9 @@ function Hero() {
                   contactSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="w-full sm:w-auto rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-500"
+              className="flex items-center justify-center gap-2 w-full sm:w-auto rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-500"
             >
+              <CalendarCheck className="h-4 w-4" />
               Book Now
             </button>
           </div>
